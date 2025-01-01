@@ -4,14 +4,15 @@ import json
 
 # Connect to Redis
 r = redis.Redis(
-    host='localhost',
-    port=6379,
+    host='ohadrubin.com',
+    port=39912,
+    # ohadrubin.com:
     password=os.getenv('REDIS_PASSWORD'),
     decode_responses=True
 )
 
 # Set a value
-r.set('mykey', 'myvalue')
+r.set('mykey', 'myvaadasdlue')
 
 # # Get a value 
 value = r.get('mykey')
