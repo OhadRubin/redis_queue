@@ -116,9 +116,9 @@ class Bookkeeping:
 
 class RedisQueue:
     def __init__(self, name: str="default", worker_name: str = None):
-        url = os.environ.get("REDIS_URL", None)
-        if url is None:
-            raise ValueError("REDIS_URL is not set")
+        # url = os.environ.get("REDIS_URL", None)
+        # if url is None:
+        #     raise ValueError("REDIS_URL is not set")
         self._db = get_client()
         # self._db = redis.Redis.from_url(url)
         self._name = name
