@@ -1,6 +1,8 @@
 # streamlit run src/visualization/monitor_queue.py
 import os
 import time
+import sys
+sys.path.append("/app")
 os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 import streamlit as st
 import pandas as pd
