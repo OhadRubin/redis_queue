@@ -1,4 +1,4 @@
-# sudo docker compose up
+# Run with: sudo docker-compose -f docker-compose.yml up
 version: '3'
 networks:
   redis:
