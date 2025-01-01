@@ -46,7 +46,8 @@ def ip_addr():
 def init():
     _, leader_ip, my_ip = ip_addr()
     if my_ip != leader_ip:
-        follower_loop(leader_ip)
+        while True:
+            follower_loop(leader_ip)
 
 
 # python3.10 -m src.multi_system send_cmd --cmd="echo hello"
