@@ -19,6 +19,8 @@ logger = init_logger()
 def get_ip():
     return requests.get('https://checkip.amazonaws.com').text.strip()
 
+# python3.10 -m src.redis_queue run_queue --worker_name=worker_name --process_func=process_func --sleep_time=3 --set_heatbeat=True
+# python3.10 -m src.redis_queue run_queue
 @logger.catch
 def run_queue(worker_name=None,
               process_func=None,
@@ -65,9 +67,9 @@ def run_queue(worker_name=None,
                     
                     logger.success(f"Job finished successfully.")
             
-        if queue.empty():
-            logger.success(f"Queue is empty. Exiting.")
-            break
+        # if queue.empty():
+        #     logger.success(f"Queue is empty. Exiting.")
+        #     break
         time.sleep(sleep_time)
 
 
