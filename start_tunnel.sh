@@ -26,10 +26,8 @@ start_tunnel() {
     done
 }
 
-# # Start tunnel with default values (tcp protocol, port 6379, subdomain "redis", 5 sec delay)
 # start_tunnel tcp 6379 redis 5 &
 start_tunnel http 8081 redis-commander 5 &
 start_tunnel http 8051 monitor 5 &
-# ngrok tcp 6379
+# start_tunnel tcp 6379 redis 5 &
 wait
-# ./portr tcp 6379 -s redis

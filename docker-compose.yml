@@ -42,19 +42,3 @@ services:
     network_mode: host
     depends_on:
       - redis
-  # tests:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.portr
-  #   command: pytest tests/test_redis_gateway.py -v
-  #   environment:
-  #     - REDIS_PASSWORD=${REDIS_PASSWORD}
-  #   depends_on:
-  #     - redis
-  #   networks:
-  #     - redis
-#   visualizer:
-#     image: bla
-  #   depends_on:
-  #     - redis
-    
