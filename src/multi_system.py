@@ -24,8 +24,7 @@ import zmq
 import os
 import subprocess
 import json
-from jax.experimental.multihost_utils import sync_global_devices
-import jax
+
 import fire
 import time
 
@@ -60,7 +59,7 @@ def send_cmd(cmd: str):
     
     socket.send_string(cmd)
     os.system(cmd)
-    sync_global_devices("sync")
+    os.system("python3.10 -c \"import jax; from jax.experimental.multihost_utils import sync_global_devices; sync_global_devices('bla'); print(jax.process_index())\" ")
     socket.close()
 
     
@@ -77,8 +76,8 @@ def follower_loop(leader_ip: str):
             message = socket.recv_string()
             print(f"Received command: {message}")
             os.system(message)
-            sync_global_devices("sync")
-            print("Synced devices, waiting for next command")
+            os.system("python3.10 -c \"import jax; from jax.experimental.multihost_utils import sync_global_devices; sync_global_devices('bla'); print(jax.process_index())\" ")
+            # print("Synced devices, waiting for next command")
         except Exception as e:
             print(f"Error: {e}")
             time.sleep(1)
