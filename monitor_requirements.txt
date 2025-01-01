@@ -2,3 +2,6 @@ redis
 streamlit
 pandas
 tqdm
+fire
+loguru
+requests
