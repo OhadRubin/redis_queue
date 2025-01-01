@@ -28,10 +28,10 @@ import json
 import fire
 import time
 
-def ip_addr():
+def ip_addr(zone: str):
     hostname = os.uname().nodename
-    DESCRIBE = "gcloud alpha compute tpus tpu-vm describe {hostname}  --zone us-central2-b --format json"
-    res = subprocess.getoutput(DESCRIBE.format(hostname=hostname))
+    DESCRIBE = "gcloud alpha compute tpus tpu-vm describe {hostname}  --zone {zone} --format json"
+    res = subprocess.getoutput(DESCRIBE.format(hostname=hostname, zone=zone))
     addr_list = []
     for endpoint in json.loads(res)['networkEndpoints']:
         ip_address = endpoint["accessConfig"]['externalIp']
