@@ -4,6 +4,7 @@ import json
 import requests
 
 NGROK_API_KEY = os.getenv('NGROK_API_KEY')
+
 def get_redis():
     headers = {
         'Authorization': f'Bearer {NGROK_API_KEY}',
@@ -22,3 +23,4 @@ def get_redis():
     return r
 
 r = get_redis()
+print(r.get('mykey'))
