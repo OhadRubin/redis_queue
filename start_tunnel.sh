@@ -5,7 +5,6 @@
 # unzip portr_0.0.26-beta_Linux_x86_64.zip 
 ./portr auth set --token $PORTR_KEY --remote $GATEWAY_DOMAIN
 
-./ngrok config add-authtoken $NGROK_TOKEN
 
 start_tunnel() {
     local protocol="${1:-tcp}"  # tcp or http
