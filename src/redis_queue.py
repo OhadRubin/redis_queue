@@ -274,10 +274,10 @@ def purge():
     queue.clear()
     print("Purged all jobs from Redis queue.")
     
-import zmq
-import json
 #python3.10 -m src.redis_queue requeue_subscriber
 def requeue_subscriber():
+    import zmq
+    import json
     logger.info(f"Starting requeuing subscriber")
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
