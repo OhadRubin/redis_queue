@@ -32,10 +32,13 @@ def follower_loop(my_ip: str, leader_ip: str):
             socket = context.socket(zmq.SUB)
             socket.connect(f"tcp://{leader_ip}:5556")
             socket.setsockopt_string(zmq.SUBSCRIBE, "")  # Subscribe to all messages
-            message = socket.recv_string()
+            socket.setsockopt(zmq.RCVTIMEO, 5000)  # 5 second timeout
+            try:
+                return socket.recv_string()
+            except zmq.error.Again:
+                raise Exception(f"Timeout waiting for leader {leader_ip} to publish")
             
             
-            break
             # we only receive the command once the leader finishes
         except Exception as e:
             time.sleep(1)
