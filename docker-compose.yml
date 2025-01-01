@@ -10,6 +10,19 @@ services:
     restart: always
     networks:
       - redis
+  redis-commander:
+    image: rediscommander/redis-commander
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - HTTP_PASSWORD=${REDIS_PASSWORD}
+    ports:
+      - "8081:8081"
+    networks:
+      - redis
+    depends_on:
+      - redis
   portr:
     build:
       context: .
@@ -21,6 +34,17 @@ services:
       - redis
     networks:
       - redis
+  # tests:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.portr
+  #   command: pytest tests/test_redis_gateway.py -v
+  #   environment:
+  #     - REDIS_PASSWORD=${REDIS_PASSWORD}
+  #   depends_on:
+  #     - redis
+  #   networks:
+  #     - redis
 #   visualizer:
 #     image: bla
   #   depends_on:
