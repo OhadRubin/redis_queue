@@ -1,3 +1,4 @@
+# sudo docker compose up
 version: '3'
 networks:
   redis:
