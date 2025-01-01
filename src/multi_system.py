@@ -24,7 +24,7 @@ import zmq
 import os
 import subprocess
 import json
-
+from src.redis_queue import run_queue
 import fire
 import time
 
@@ -42,11 +42,14 @@ def ip_addr(zone: str):
     return sorted_addr_list, leader_ip, my_ip
 
 # python3.10 -m src.multi_system init
-def init():
-    _, leader_ip, my_ip = ip_addr()
+def init(zone: str):
+    _, leader_ip, my_ip = ip_addr(zone)
     if my_ip != leader_ip:
         while True:
             follower_loop(leader_ip)
+    else:
+        run_queue(process_func=send_cmd)
+    
 
 
 # python3.10 -m src.multi_system send_cmd --cmd="echo hello"
