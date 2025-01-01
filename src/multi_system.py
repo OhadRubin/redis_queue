@@ -77,6 +77,7 @@ def follower_loop(leader_ip: str):
             print(f"Received command: {message}")
             os.system(message)
             sync_global_devices("sync")
+            print("Synced devices, waiting for next command")
         except Exception as e:
             print(f"Error: {e}")
             time.sleep(1)
