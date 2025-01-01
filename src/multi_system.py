@@ -42,7 +42,7 @@ def ip_addr(zone: str):
     return sorted_addr_list, leader_ip, my_ip
 
 # python3.10 -m src.multi_system init
-def init(zone: str):
+def init(zone: str="us-central2-b"):
     _, leader_ip, my_ip = ip_addr(zone)
     if my_ip != leader_ip:
         while True:
