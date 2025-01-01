@@ -32,6 +32,16 @@ services:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
     command: tcp 6379
     network_mode: host
+  monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - NGROK_API_KEY=${NGROK_API_KEY}
+    network_mode: host
+    depends_on:
+      - redis
   # tests:
   #   build:
   #     context: .

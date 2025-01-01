@@ -15,10 +15,10 @@ RUN pip install -r monitor_requirements.txt
 COPY src/ src/
 
 # Set environment variable for Streamlit port
-ENV PORT=8051
+# ENV PORT=8501
 
 # Expose the port
-EXPOSE 8051
+# EXPOSE 8501
 
 # Run the Streamlit app
 CMD ["streamlit", "run", "src/monitor_queue.py", "--server.port", "8051", "--server.address", "0.0.0.0"]
