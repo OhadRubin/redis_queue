@@ -24,25 +24,28 @@ def ip_addr(zone: str):
 
 
 # connects to leader and listens for commands
-def follower_loop(leader_ip: str):
+def follower_loop(my_ip: str, leader_ip: str):
     while True:
         try:
+            print(f"follower {my_ip} waiting for leader {leader_ip} to finish")
             context = zmq.Context()
             socket = context.socket(zmq.SUB)
-            socket.connect(f"tcp://{leader_ip}:5554")
+            socket.connect(f"tcp://{leader_ip}:5556")
             socket.setsockopt_string(zmq.SUBSCRIBE, "")  # Subscribe to all messages
             message = socket.recv_string()
+            
+            
             break
             # we only receive the command once the leader finishes
         except Exception as e:
             time.sleep(1)
 
 
-# python3.10 -m src.multi_system finish
+# python3.10 -m src.barrier finish
 def finish():
     context = zmq.Context()
     socket = context.socket(zmq.PUB)
-    socket.bind("tcp://*:5554")
+    socket.bind("tcp://*:5556")
     # Give time for subscribers to connect
     time.sleep(1)
     socket.send_string("finish")
@@ -53,7 +56,10 @@ def finish():
 def start(zone: str="us-central2-b"):
     _, leader_ip, my_ip = ip_addr(zone)
     if my_ip != leader_ip:
-        follower_loop(leader_ip)
+        follower_loop(my_ip, leader_ip)
+        print(f"follower {my_ip} finished")
+    else:
+        print(f"leader {my_ip} does other stuff now")
     
     
 if __name__ == "__main__":
