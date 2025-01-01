@@ -1,4 +1,3 @@
-import redis
 from typing import Any
 import os
 import uuid
@@ -8,19 +7,24 @@ import requests
 import socket
 from collections import Counter
 import fire
-import redis
+
 import time
 from src.logging_utils import init_logger
 import tqdm
 import uuid
 import threading
+from src.client import get_client
 logger = init_logger()
 
 def get_ip():
     return requests.get('https://checkip.amazonaws.com').text.strip()
 
 @logger.catch
-def run_queue(worker_name=None, process_func=None, sleep_time:int=3, set_heatbeat:bool = True):
+def run_queue(worker_name=None,
+              process_func=None,
+              sleep_time:int=3,
+              set_heatbeat:bool = True
+              ):
     logger.info(f"Starting worker")
     if process_func is None:
         process_func = os.system
@@ -115,7 +119,8 @@ class RedisQueue:
         url = os.environ.get("REDIS_URL", None)
         if url is None:
             raise ValueError("REDIS_URL is not set")
-        self._db = redis.Redis.from_url(url)
+        self._db = get_client()
+        # self._db = redis.Redis.from_url(url)
         self._name = name
         self.bookkeeping_mapping_hash = f"{name}_worker_job_mapping"
         if worker_name is not None:

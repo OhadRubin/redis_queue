@@ -5,7 +5,7 @@ import requests
 
 NGROK_API_KEY = os.getenv('NGROK_API_KEY')
 
-def get_redis():
+def get_client(**kwargs):
     headers = {
         'Authorization': f'Bearer {NGROK_API_KEY}',
         'Ngrok-Version': '2'
@@ -18,9 +18,11 @@ def get_redis():
         host=addr,
         port=int(port),
         password=os.getenv('REDIS_PASSWORD'),
+        **kwargs
         # decode_responses=True
     )
     return r
 
-r = get_redis()
-print(r.get('mykey'))
+if __name__ == "__main__":
+    r = get_client()
+    print(r.get('mykey'))

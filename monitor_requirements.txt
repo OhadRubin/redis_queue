@@ -1,0 +1,4 @@
+redis
+streamlit
+pandas
+tqdm
