@@ -41,15 +41,7 @@ def ip_addr(zone: str):
     leader_ip = sorted_addr_list[0]
     return sorted_addr_list, leader_ip, my_ip
 
-# python3.10 -m src.multi_system init
-def init(zone: str="us-central2-b"):
-    _, leader_ip, my_ip = ip_addr(zone)
-    if my_ip != leader_ip:
-        while True:
-            follower_loop(leader_ip)
-    else:
-        run_queue(process_func=send_cmd)
-    
+
 
 
 # python3.10 -m src.multi_system send_cmd --cmd="echo hello"
@@ -61,10 +53,10 @@ def send_cmd(cmd: str):
     time.sleep(1)
     
     socket.send_string(cmd)
-    os.system(cmd)
+    return_value = os.system(cmd)
     os.system("python3.10 -c \"import jax; from jax.experimental.multihost_utils import sync_global_devices; sync_global_devices('bla'); print(jax.process_index())\" ")
     socket.close()
-
+    return return_value
     
 # connects to leader and listens for commands
 def follower_loop(leader_ip: str):
@@ -85,5 +77,16 @@ def follower_loop(leader_ip: str):
             print(f"Error: {e}")
             time.sleep(1)
 
+
+# python3.10 -m src.multi_system init
+def init(zone: str="us-central2-b"):
+    _, leader_ip, my_ip = ip_addr(zone)
+    if my_ip != leader_ip:
+        while True:
+            follower_loop(leader_ip)
+    else:
+        run_queue(process_func=send_cmd)
+    
+    
 if __name__ == "__main__":
     fire.Fire()
