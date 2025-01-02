@@ -80,12 +80,13 @@ def follower_loop(leader_ip: str):
 
 # python3.10 -m src.multi_system init
 def init(zone: str="us-central2-b"):
-    _, leader_ip, my_ip = ip_addr(zone)
+    other_ips, leader_ip, my_ip = ip_addr(zone)
     if my_ip != leader_ip:
         while True:
             follower_loop(leader_ip)
     else:
-        run_queue(process_func=send_cmd)
+        queue_name = f"v4-{str(8*len(other_ips))}"
+        run_queue(process_func=send_cmd, queue_name=queue_name)
     
     
 if __name__ == "__main__":
