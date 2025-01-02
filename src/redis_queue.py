@@ -146,7 +146,7 @@ class RedisQueue:
         
     def get(self, timeout=None, return_job=False,):
         # Pop and deserialize next job from queue
-        item = self._db.blpop(self._name, timeout=timeout)
+        item = self._db.blpop(f"{self._name}:queue", timeout=timeout)
         if item:
             job = pickle.loads(item[1],encoding="utf-8")
             if self.worker_name is not None:
