@@ -3,7 +3,17 @@
 # it was obtained from:
 # wget https://github.com/amalshaji/portr/releases/download/0.0.26-beta/portr_0.0.26-beta_Linux_x86_64.zip
 # unzip portr_0.0.26-beta_Linux_x86_64.zip 
-./portr auth set --token $PORTR_KEY --remote $GATEWAY_DOMAIN
+# ./portr auth set --token $PORTR_KEY --remote $GATEWAY_DOMAIN
+
+mkdir -p /root/.portr
+
+cat << EOF > /root/.portr/config.yaml
+version: '3.7'
+
+server_url: ohadrubin.com
+ssh_url: ohadrubin.com:2222
+secret_key: ${PORTR_KEY}
+EOF
 
 
 start_tunnel() {
