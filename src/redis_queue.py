@@ -304,14 +304,14 @@ def enqueue_from_file(filename:str):
             queue.put(line.strip())
 
 
-
-def counter():
-    queue = RedisQueue()
+# python3.10 -m src.redis_queue counter
+def counter(name:str="default"):
+    queue = RedisQueue(name=name)
     print(Counter(job.status for job in queue.get_all_jobs()))
 
 # python3.10 -m src.redis_queue n_jobs
-def n_jobs():
-    queue = RedisQueue()
+def n_jobs(name:str="default"):
+    queue = RedisQueue(name=name)
     print(queue.n_jobs())
 # python3.10 -m src.redis_queue list_keys
 def list_keys():
@@ -319,9 +319,9 @@ def list_keys():
     print(len(list(queue._db.keys("*"))))
 
 #python3.10 -m src.redis_queue purge
-def purge():
+def purge(name:str="default"):
     counter()
-    queue = RedisQueue()
+    queue = RedisQueue(name=name)
     queue.clear()
     print("Purged all jobs from Redis queue.")
 
