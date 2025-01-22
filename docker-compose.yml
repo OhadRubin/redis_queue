@@ -1,11 +1,40 @@
 # Run with: sudo docker-compose -f docker-compose.yml up
 version: '3'
 services:
+version: '3.8'
+
+
+# networks:
+#   redis_net:
+#     driver: bridge
+services:
   redis:
-    image: redis
-    command: redis-server --requirepass $REDIS_PASSWORD
-    restart: always
-    network_mode: host
+    image: redis:7.2-alpine
+    command: 
+      - redis-server 
+      - --requirepass $REDIS_PASSWORD
+      - --maxclients 10000
+      - --timeout 300
+      - --tcp-keepalive 300
+      - --maxmemory 2gb
+      - --maxmemory-policy allkeys-lru
+      - --save 300 100
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+    networks:
+      - redis_net
+    ports:
+      - "6379:6379"
+    sysctls:
+      - net.core.somaxconn=65535
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
   redis-commander:
     image: rediscommander/redis-commander
     environment:
@@ -26,6 +55,7 @@ services:
     depends_on:
       - redis
     network_mode: host
+    restart: unless-stopped
   ngrok:
     image: ngrok/ngrok:latest
     environment:
@@ -40,5 +70,6 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - NGROK_API_KEY=${NGROK_API_KEY}
     network_mode: host
+    restart: unless-stopped
     depends_on:
       - redis
