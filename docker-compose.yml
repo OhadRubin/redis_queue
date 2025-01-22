@@ -20,7 +20,7 @@ services:
       - --maxmemory-policy allkeys-lru
       - --save 300 100
     restart: unless-stopped
-      network_mode: host
+    network_mode: host
     deploy:
       resources:
         limits:
