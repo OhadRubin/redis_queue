@@ -26,12 +26,12 @@ services:
     depends_on:
       - redis
     network_mode: host
-  # ngrok:
-  #   image: ngrok/ngrok:latest
-  #   environment:
-  #     - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
-  #   command: tcp 6379
-  #   network_mode: host
+  ngrok:
+    image: ngrok/ngrok:latest
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    command: tcp 6379
+    network_mode: host
   monitor:
     build:
       context: .

@@ -39,5 +39,5 @@ start_tunnel() {
 # start_tunnel tcp 6379 redis 5 &
 start_tunnel http 8081 redis-commander 5 &
 start_tunnel http 8051 monitor 5 &
-start_tunnel tcp 6379 redis 5 &
+# start_tunnel tcp 6379 redis 5 &
 wait
