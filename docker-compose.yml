@@ -1,7 +1,7 @@
 # Run with: sudo docker-compose -f docker-compose.yml up
-version: '3'
-services:
+
 version: '3.8'
+
 
 
 # networks:
