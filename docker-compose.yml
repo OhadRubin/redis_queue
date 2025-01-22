@@ -1,12 +1,8 @@
 # Run with: sudo docker-compose -f docker-compose.yml up
-
 version: '3.8'
 
 
 
-# networks:
-#   redis_net:
-#     driver: bridge
 services:
   redis:
     image: redis:7.2-alpine
@@ -25,10 +21,9 @@ services:
       resources:
         limits:
           memory: 3G
-    sysctls:
-      - net.core.somaxconn=65535
+    # Sysctls must be set on host OS instead
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping"]
       interval: 30s
       timeout: 10s
       retries: 3
