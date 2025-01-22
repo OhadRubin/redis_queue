@@ -20,14 +20,11 @@ services:
       - --maxmemory-policy allkeys-lru
       - --save 300 100
     restart: unless-stopped
+      network_mode: host
     deploy:
       resources:
         limits:
           memory: 3G
-    networks:
-      - redis_net
-    ports:
-      - "6379:6379"
     sysctls:
       - net.core.somaxconn=65535
     healthcheck:
